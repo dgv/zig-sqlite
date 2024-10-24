@@ -322,7 +322,7 @@ fn validateCursorType(comptime Table: type) void {
             @compileError("the Cursor type must have an init function, " ++ error_message);
         }
 
-        const info = @typeInfo(@TypeOf(Cursor.init)).@"fn";
+        const info = @typeInfo(@TypeOf(Cursor.init)).Fn;
 
         if (info.params.len != 2) @compileError(error_message);
         if (info.params[0].type.? != mem.Allocator) @compileError(error_message);
@@ -340,7 +340,7 @@ fn validateCursorType(comptime Table: type) void {
             @compileError("the Cursor type must have a deinit function, " ++ error_message);
         }
 
-        const info = @typeInfo(@TypeOf(Cursor.deinit)).@"fn";
+        const info = @typeInfo(@TypeOf(Cursor.deinit)).Fn;
 
         if (info.params.len != 1) @compileError(error_message);
         if (info.params[0].type.? != *Cursor) @compileError(error_message);
@@ -361,7 +361,7 @@ fn validateCursorType(comptime Table: type) void {
             @compileError("the Cursor type must have a next function, " ++ error_message);
         }
 
-        const info = @typeInfo(@TypeOf(Cursor.next)).@"fn";
+        const info = @typeInfo(@TypeOf(Cursor.next)).Fn;
 
         if (info.params.len != 2) @compileError(error_message);
         if (info.params[0].type.? != *Cursor) @compileError(error_message);
@@ -383,7 +383,7 @@ fn validateCursorType(comptime Table: type) void {
             @compileError("the Cursor type must have a hasNext function, " ++ error_message);
         }
 
-        const info = @typeInfo(@TypeOf(Cursor.hasNext)).@"fn";
+        const info = @typeInfo(@TypeOf(Cursor.hasNext)).Fn;
 
         if (info.params.len != 2) @compileError(error_message);
         if (info.params[0].type.? != *Cursor) @compileError(error_message);
@@ -405,7 +405,7 @@ fn validateCursorType(comptime Table: type) void {
             @compileError("the Cursor type must have a filter function, " ++ error_message);
         }
 
-        const info = @typeInfo(@TypeOf(Cursor.filter)).@"fn";
+        const info = @typeInfo(@TypeOf(Cursor.filter)).Fn;
 
         if (info.params.len != 4) @compileError(error_message);
         if (info.params[0].type.? != *Cursor) @compileError(error_message);
@@ -432,7 +432,7 @@ fn validateCursorType(comptime Table: type) void {
             @compileError("the Cursor type must have a column function, " ++ error_message);
         }
 
-        const info = @typeInfo(@TypeOf(Cursor.column)).@"fn";
+        const info = @typeInfo(@TypeOf(Cursor.column)).Fn;
 
         if (info.params.len != 3) @compileError(error_message);
         if (info.params[0].type.? != *Cursor) @compileError(error_message);
@@ -455,7 +455,7 @@ fn validateCursorType(comptime Table: type) void {
             @compileError("the Cursor type must have a rowId function, " ++ error_message);
         }
 
-        const info = @typeInfo(@TypeOf(Cursor.rowId)).@"fn";
+        const info = @typeInfo(@TypeOf(Cursor.rowId)).Fn;
 
         if (info.params.len != 2) @compileError(error_message);
         if (info.params[0].type.? != *Cursor) @compileError(error_message);
@@ -480,7 +480,7 @@ fn validateTableType(comptime Table: type) void {
             @compileError("the Table type must have a init function, " ++ error_message);
         }
 
-        const info = @typeInfo(@TypeOf(Table.init)).@"fn";
+        const info = @typeInfo(@TypeOf(Table.init)).Fn;
 
         if (info.params.len != 3) @compileError(error_message);
         if (info.params[0].type.? != mem.Allocator) @compileError(error_message);
@@ -500,7 +500,7 @@ fn validateTableType(comptime Table: type) void {
             @compileError("the Table type must have a deinit function, " ++ error_message);
         }
 
-        const info = @typeInfo(@TypeOf(Table.deinit)).@"fn";
+        const info = @typeInfo(@TypeOf(Table.deinit)).Fn;
 
         if (info.params.len != 2) @compileError(error_message);
         if (info.params[0].type.? != *Table) @compileError(error_message);
@@ -522,7 +522,7 @@ fn validateTableType(comptime Table: type) void {
             @compileError("the Table type must have a buildBestIndex function, " ++ error_message);
         }
 
-        const info = @typeInfo(@TypeOf(Table.buildBestIndex)).@"fn";
+        const info = @typeInfo(@TypeOf(Table.buildBestIndex)).Fn;
 
         if (info.params.len != 3) @compileError(error_message);
         if (info.params[0].type.? != *Table) @compileError(error_message);
@@ -929,7 +929,7 @@ pub fn VirtualTable(
             // TODO(vincent): does it make sense to put this in setResult ? Functions could also return a union.
             const ColumnType = @TypeOf(column);
             switch (@typeInfo(ColumnType)) {
-                .@"union" => |info| {
+                .Union => |info| {
                     if (info.tag_type) |UnionTagType| {
                         inline for (info.fields) |u_field| {
 
